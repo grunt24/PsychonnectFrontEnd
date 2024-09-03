@@ -2,16 +2,13 @@ import { Button, Layout, theme, Breadcrumb, Table } from "antd";
 import Logo from "../components/Logo";
 import MenuList from "../components/MenuList";
 import { useState } from "react";
-import { MenuOutlined,  UploadOutlined, DeleteFilled } from "@ant-design/icons";
-import { getCategories, addCategory, updateCategory, deleteCategory } from "../api/categoryService";
-import { useMutation, useQueryClient, useQuery} from "@tanstack/react-query";
+import { MenuOutlined } from "@ant-design/icons";
+import { useQuery } from "@tanstack/react-query";
+import { getCategories} from "../api/categoryService";
 
 const { Header, Sider, Content } = Layout;
 
 const Category = () => {
-  const queryClient = useQueryClient();
-  const [categoryName, setCategoryName] = useState("");
-
   const [collapsed, setCollapsed] = useState(false);
   const {
     token: { colorBgContainer, borderRadiusLG },
@@ -54,88 +51,19 @@ const Category = () => {
   ];
 
   const {
-    isLoading,
     data: categories,
     isFetching,
-    isError,
     error,
   } = useQuery({
     queryKey: ["categories"], // must be unique
     queryFn: getCategories,
   });
 
-  const addCategoryMutation = useMutation(addCategory, {
-    onSuccess: () => {
-      queryClient.invalidateQueries("categories")
-    }
-  })
-
-  const updateCategoryMutation = useMutation(updateCategory, {
-    onSuccess: () => {
-      queryClient.invalidateQueries("categories")
-    }
-  })
-
-  const deleteCategoryMutation = useMutation(deleteCategory, {
-    onSuccess: () => {
-      queryClient.invalidateQueries("categories")
-    }
-  })
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    addCategoryMutation.mutate({ id: 1, categoryName: setCategoryName, completed: false })
-    setCategoryName("")
-  }
-
   if (isFetching) return <h1>Loading...</h1>;
 
   // Handle error
   if (error) {
     return <div className="error">Error: error fetching</div>;
-  }
-
-  const newItemSection = (
-    <form onSubmit={handleSubmit}>
-    <label htmlFor="new-todo">Enter a new todo item</label>
-    <div className="new-todo">
-        <input
-            type="text"
-            id="new-todo"
-            value={categoryName}
-            onChange={(e) => setCategoryName(e.target.value)}
-            placeholder="Enter new todo"
-        />
-    </div>
-    <button className="submit" icon={<UploadOutlined />}>
-    </button>
-    </form>
-  )
-  let content
-  if (isLoading) {
-      content = <p>Loading...</p>
-  } else if (isError) {
-      content = <p>{error.message}</p>
-  } else {
-      content = categories.map((categories) => {
-          return (
-              <article key={categories.id}>
-                  <div className="todo">
-                      <input
-                          type="checkbox"
-                          checked={categories.completed}
-                          id={categories.id}
-                          onChange={() =>
-                              updateCategoryMutation.mutate({ ...categories, completed: !categories.completed })
-                          }
-                      />
-                      <label htmlFor={categories.id}>{categories.title}</label>
-                  </div>
-                  <button icon={<DeleteFilled />} className="trash" onClick={() => deleteCategoryMutation.mutate({ id: categories.id })}>
-                  </button>
-              </article>
-          )
-      })
   }
 
   return (
@@ -191,14 +119,8 @@ const Category = () => {
                 borderRadius: borderRadiusLG,
               }}
             >
-
-<main>
-            <h1>Todo List</h1>
-            {newItemSection}
-            {content}
-        </main>
-
               <h1>Category List</h1>
+
               <Table
                 columns={columns}
                 dataSource={categories}
