@@ -60,6 +60,11 @@ const MenuList = () => {
           Log Management
         </Link>
       </Menu.Item>
+      <Menu.Item key={"CatList"} icon={<BookFilled />}>
+        <Link Link to="/CategoryList">
+          Category List
+        </Link>
+      </Menu.Item>
 
     </Menu>
   );

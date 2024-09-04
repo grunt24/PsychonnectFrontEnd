@@ -1,10 +1,10 @@
 import { Button, Layout, theme, Breadcrumb, Table } from "antd";
-import Logo from "../components/Logo";
-import MenuList from "../components/MenuList";
+import Logo from "../../components/Logo";
+import MenuList from "../../components/MenuList";
 import { useState } from "react";
 import { MenuOutlined } from "@ant-design/icons";
 import { useQuery } from "@tanstack/react-query";
-import { getCategories} from "../api/categoryService";
+import { getCategories} from "../../api/categoryService";
 
 const { Header, Sider, Content } = Layout;
 

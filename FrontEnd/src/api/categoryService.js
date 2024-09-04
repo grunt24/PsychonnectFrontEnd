@@ -9,16 +9,20 @@ export const getCategories = async () => {
   return data;
 };
 
-export const addCategory = async (category) => {
-  return await axiosInstance.post(subdirectory, category);
-}
-
-export const updateCategory = async (category) => {
-  return await axiosInstance.patch(`${subdirectory}/${category.id}`, category);
-}
-export const deleteCategory = async (id) => {
-  return await axiosInstance.delete(`${subdirectory}/${id}`, id);
-}
+// Function to get a category by ID
+export const getCategoryById = async (id) => {
+  try {
+    const { data } = await axiosInstance.get(`${subdirectory}/${id}`);
+    return data;
+  } catch (error) {
+    console.error(`Error fetching category with ID ${id}:`, {
+      message: error.message,
+      response: error.response?.data, // Detailed error response from the server
+      status: error.response?.status, // HTTP status code
+    });
+    throw error;
+  }
+};
 
 
 
