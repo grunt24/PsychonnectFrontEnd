@@ -1,6 +1,7 @@
 import { useState } from "react";
 
-const CategoryForm = () => {
+
+const CategoryForm = ( onSubmit ) => {
 
     const [categories, setCateogories] = useState({
         categoryName: "",
@@ -18,14 +19,14 @@ const CategoryForm = () => {
             <label>{label}</label>
             <input onChange={handleChangeInput} type="text" name={label.toLowerCase()} value={categories[label.toLowerCase()]} />
         </div>
-    )
+    );
 
     const handleSubmit = (e) => {
-        e.preventDefault();
-        console.log(categories);
+        e.preventDefault(); 
+        onSubmit(categories);
         setCateogories({
             categoryName: "",
-        })
+        })  
         
     }
 

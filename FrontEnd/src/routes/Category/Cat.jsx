@@ -12,11 +12,10 @@ const Cat = () => {
     isLoading,
     isError,
     error,
-    data: category, // Renamed to singular `category` for clarity
+    data: category,
   } = useQuery({
     queryKey: ["category", id], // Unique query key for this specific ID
     queryFn: () => getCategoryById(id),
-    enabled: !!id, // Only run the query if ID exists
   });
 
   if (isLoading) {

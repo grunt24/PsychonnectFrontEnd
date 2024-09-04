@@ -1,35 +1,23 @@
-import { useState } from "react";
-import axios from "axios";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation } from '@tanstack/react-query'
+import CategoryForm from './CategoryForm'
+import { createCategory } from '../api/categoryService'
 
 const AddCategory = () => {
 
-  const [categories, setCategories] = useState("");
+  const createCategoryMutation = useMutation({
+    mutationFn: createCategory
+  });
 
-  const mutationRequest = useMutation((newCategory) => axios.post("http://psychonnect-api.runasp.net/api/", newCategory));
-
-  const sendData = () => {
-    mutationRequest.mutate({ categories });
-  };
-
-  if (mutationRequest.isLoading) {
-    return <span>Submitting...</span>;
+  const handleAddCategory = (categories) => {
+    createCategoryMutation.mutate({
+      id: 4,
+      ...categories
+    });
   }
-
-  if (mutationRequest.isError) {
-    return <span>Error: {mutationRequest.error.message}</span>;
-  }
-
-  if (mutationRequest.isSuccess) {
-    return <span>Article submitted!</span>;
-  }
-
-
 
   return (
-    <div>
-      <input type="text" value={categories} onChange={(e) => setCategories(e.target.value)} placeholder="categories" />
-      <button onClick={sendData}>Submit</button>
+    <div>AddCategory
+        <CategoryForm onSubmit={handleAddCategory}/>
     </div>
   )
 }
