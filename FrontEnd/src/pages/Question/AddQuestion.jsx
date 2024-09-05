@@ -7,9 +7,9 @@ const AddQuestion = () => {
         mutationFn: createQuestion
       });
 
-      const handleAddQuestion = (questions) => {
-        createQuestionMutation.mutate({
-          ...questions
+      const handleAddQuestion = async (questions) => {
+        await createQuestionMutation.mutate({
+          ...questions,
         });
       }
 

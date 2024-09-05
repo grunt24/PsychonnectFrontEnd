@@ -11,7 +11,7 @@ const Category = () => {
   
   const [sortedInfo, setSortedInfo] = useState({});
 
-  const handleChange = ( sorter) => {
+  const handleChange = (pagination, filters, sorter) => {
     setSortedInfo(sorter);
   };
 
@@ -46,6 +46,13 @@ const Category = () => {
       sorter: (a, b) => new Date(a.updatedAt) - new Date(b.updatedAt),
       sortOrder: sortedInfo.columnKey === "updatedAt" ? sortedInfo.order : null,
     },
+    {
+      title: "Action",
+      width: 150,
+      dataIndex: "",
+      key: "",
+    },
+    
   ];
 
   const {
@@ -94,6 +101,8 @@ const Category = () => {
                   bordered
                   scroll={{
                     x: 'max-content',
+                    y: 300,
+
                   }}
                 />
               </div>

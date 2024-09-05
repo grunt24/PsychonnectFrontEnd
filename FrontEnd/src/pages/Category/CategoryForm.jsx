@@ -35,6 +35,7 @@ const CategoryForm = () => {
         timer: 2000, // Auto close after 2 seconds
         timerProgressBar: true,
         showConfirmButton: false, // No OK button needed
+        
       });
     } catch (error) {
       // Extract the error message from the response, if available

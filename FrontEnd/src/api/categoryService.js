@@ -21,6 +21,12 @@ export const createCategory = async (newCategory) => {
   return data;
 };
 
+// Function to update a category by ID
+export const updateCategory = async (id, updatedCategory) => {
+  const { data } = await axiosInstance.put(`${subdirectory}/${id}`, updatedCategory);
+  return data;
+};
+
 
 
 
