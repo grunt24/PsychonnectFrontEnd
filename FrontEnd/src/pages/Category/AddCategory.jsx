@@ -10,13 +10,12 @@ const AddCategory = () => {
 
   const handleAddCategory = (categories) => {
     createCategoryMutation.mutate({
-      id: 4,
       ...categories
     });
   }
 
   return (
-    <div>AddCategory
+    <div>
         <CategoryForm onSubmit={handleAddCategory}/>
     </div>
   )

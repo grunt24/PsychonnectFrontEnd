@@ -2,10 +2,13 @@ import { Layout, theme, Table } from "antd";
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { getCategories } from "../../api/categoryService";
+import AddCategory from "./AddCategory";
 
 const { Content } = Layout;
 
 const Category = () => {
+
+  
   const [sortedInfo, setSortedInfo] = useState({});
 
   const handleChange = ( sorter) => {
@@ -18,14 +21,7 @@ const Category = () => {
 
   // Define the columns with sorting logic
   const columns = [
-    {
-      title: "Id",
-      width: 150,
-      dataIndex: "id",
-      key: "id",
-      sorter: (a, b) => a.id - b.id,
-      sortOrder: sortedInfo.columnKey === "id" ? sortedInfo.order : null,
-    },
+
     {
       title: "Category Name",
       width: 150,
@@ -74,8 +70,12 @@ const Category = () => {
     <>
 
           {/* Content */}
+          
           <Content style={{ margin: "24px 16px 0", overflow: "initial" }}>
+          <AddCategory/>
+            
             <div
+            
               style={{
                 padding: 24,
                 textAlign: "center",
@@ -83,6 +83,7 @@ const Category = () => {
                 borderRadius: borderRadiusLG,
               }}
             >
+
               <h1>Category List</h1>
               <div style={{ overflowX: "auto" }}>
                 <Table

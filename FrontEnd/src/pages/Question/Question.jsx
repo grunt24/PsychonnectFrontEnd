@@ -1,7 +1,10 @@
 import { Layout, theme, Table, Spin } from "antd";
 import { useState } from "react";
-import { getQuestions, getCategories } from "../../api/questionService";
+import { getQuestions } from "../../api/questionService";
+import { getCategories } from "../../api/categoryService";
+
 import { useQuery } from "@tanstack/react-query";
+import AddQuestion from "./AddQuestion";
 const { Content } = Layout;
 
 const Question = () => {
@@ -105,11 +108,13 @@ const Question = () => {
     <Spin spinning={isLoading} size="large" tip="Loading... ">
         {/* Content */}
         <Content
+
           style={{
             margin: "24px 16px 0",
             overflow: "initial",
           }}
         >
+            <AddQuestion/>
             <div
               style={{
                 padding: 24,
