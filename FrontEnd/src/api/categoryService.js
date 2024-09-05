@@ -17,13 +17,7 @@ export const getCategoryById = async (id) => {
 
 // Function to create a category 
 export const createCategory = async (newCategory) => {
-  const { data } = await axiosInstance.get(`subdirectory`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(newCategory),
-  });
+  const { data } = await axiosInstance.post(subdirectory, newCategory);
   return data;
 };
 

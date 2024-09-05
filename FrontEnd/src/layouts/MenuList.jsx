@@ -51,12 +51,12 @@ const MenuList = () => {
       </Menu.SubMenu>
 
       <Menu.Item key={"Mesassage"} icon={<MessageFilled />}>
-        <Link Link to="/messages">
+        <Link Link to="#">
           Message Management
         </Link>
       </Menu.Item>
       <Menu.Item key={"Logs"} icon={<BookFilled />}>
-        <Link Link to="/Logs">
+        <Link Link to="#">
           Log Management
         </Link>
       </Menu.Item>

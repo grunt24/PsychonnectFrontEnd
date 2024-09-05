@@ -1,7 +1,8 @@
 import { useState } from "react";
+import { createCategory } from "../../api/categoryService";
 
 
-const CategoryForm = ( onSubmit ) => {
+const CategoryForm = () => {
 
     const [categories, setCateogories] = useState({
         categoryName: "",
@@ -14,16 +15,16 @@ const CategoryForm = ( onSubmit ) => {
         })
     }
 
-    const renderField = (label) => (
+    const renderField = ({label,key}) => (
         <div>
             <label>{label}</label>
-            <input onChange={handleChangeInput} type="text" name={label.toLowerCase()} value={categories[label.toLowerCase()]} />
+            <input onChange={handleChangeInput} type="text" name={key} value={categories[label]} />
         </div>
     );
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault(); 
-        onSubmit(categories);
+        await createCategory(categories)
         setCateogories({
             categoryName: "",
         })  
@@ -32,7 +33,7 @@ const CategoryForm = ( onSubmit ) => {
 
   return (
     <form onSubmit={handleSubmit}>
-        {renderField('Category Name')}
+        {renderField({label: "Category Name", key: "categoryName"})}
         <button type ="submit">Submit</button>
     </form>
   )

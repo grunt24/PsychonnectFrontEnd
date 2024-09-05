@@ -1,4 +1,4 @@
-import AddCategory from "../../components/AddCategory"
+import AddCategory from "./AddCategory"
 import { useQuery } from "@tanstack/react-query";
 import { getCategories } from "../../api/categoryService";
 import { useNavigate } from "react-router-dom";
@@ -26,7 +26,6 @@ const CategoryList = () => {
 
   return (
     <div style={{textAlign: "center"}}>
-            <button onClick={() => navigate(`/`)}>Home</button>
 
         <AddCategory />
         {categories?.map((categories) => (

@@ -1,6 +1,6 @@
 import { useMutation } from '@tanstack/react-query'
 import CategoryForm from './CategoryForm'
-import { createCategory } from '../api/categoryService'
+import { createCategory } from '../../api/categoryService'
 
 const AddCategory = () => {
 
