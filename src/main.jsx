@@ -12,6 +12,7 @@ import {
   EditCategory,
   CategoryList,
   PageLayout,
+  AllLogs,
 } from "./index.js";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
@@ -33,6 +34,7 @@ const router = createBrowserRouter([
       { path: "/categorylist", element: <CategoryList /> },
       { path: "/category/:id", element: <Cat /> },
       { path: "/category/:id/edit", element: <EditCategory /> },
+      { path: "/logs", element: <AllLogs /> },
     ],
   },
 ]);

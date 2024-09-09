@@ -64,7 +64,7 @@ const MenuList = () => {
         </Link>
       </Menu.Item>
       <Menu.Item key={"Logs"} icon={<BookFilled />}>
-        <Link Link to="#">
+        <Link Link to="/logs">
           Log Management
         </Link>
       </Menu.Item>
