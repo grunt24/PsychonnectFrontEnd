@@ -27,6 +27,12 @@ export const updateCategory = async (id, updatedCategory) => {
   return data;
 };
 
+// Function to delete a category by ID
+export const deleteCategory = async (id) => {
+  const { data } = await axiosInstance.delete(`${subdirectory}/${id}`);
+  return data;
+};
+
 
 
 

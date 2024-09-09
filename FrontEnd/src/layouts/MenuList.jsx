@@ -9,8 +9,16 @@ import {
   BookFilled,
 } from "@ant-design/icons";
 import { Link } from "react-router-dom";
+import { BsPersonCircle } from "react-icons/bs";
+import loginService from "../api/loginService";
 
 const MenuList = () => {
+  const token = loginService.getToken(); // Check if token exists
+
+  const handleLogout = () => {
+    loginService.logout();
+    window.location.href = "/login"; // Redirect to login page
+  };
   return (
     <Menu theme="light" mode="inline" className="menu-bar">
       <Menu.Item key={"home"} icon={<HomeFilled />}>
@@ -65,7 +73,20 @@ const MenuList = () => {
           Category List
         </Link>
       </Menu.Item>
-
+      <Menu.Item key={"/"} icon={<BsPersonCircle />}>
+        {/* <a className="btn" href="/Login"> */}
+        {token ? (
+          <a className="btn" onClick={handleLogout}>
+            Logout
+          </a>
+        ) : (
+          // Show logout button if token exists
+          <Link className="btn" to="/Login">
+            Login
+          </Link>
+          // Show login link if no token
+        )}
+      </Menu.Item>
     </Menu>
   );
 };

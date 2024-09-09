@@ -1,46 +1,117 @@
-import AddCategory from "./AddCategory"
-import { useQuery } from "@tanstack/react-query";
-import { getCategories } from "../../api/categoryService";
-import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+import AddCategory from "./AddCategory";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { getCategories, deleteCategory, updateCategory } from "../../api/categoryService"; // Ensure the path is correct
+import Swal from "sweetalert2";
+import { Modal } from "antd"; // Ensure Ant Design is installed
 
 const CategoryList = () => {
+  const queryClient = useQueryClient();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState(null);
+  const [categoryName, setCategoryName] = useState("");
 
-    const navigate = useNavigate();
+  // Fetch categories
+  const { isLoading, isError, error, data: categories } = useQuery({
+    queryKey: ["categories"], // Must be unique
+    queryFn: getCategories,
+  });
 
-    const {
-        isLoading,
-        isError,
-        error,
-        data: categories,
-      } = useQuery({
-        queryKey: ["categories"], // must be unique
-        queryFn: getCategories,
-      });
+  // Mutation to delete category
+  const { mutate: deleteCategoryMutation } = useMutation({
+    mutationFn: (id) => deleteCategory(id),
+    onSuccess: () => {
+      Swal.fire("Deleted!", "Category has been deleted.", "success");
+      queryClient.invalidateQueries(["categories"]); // Refresh categories after deletion
+    },
+    onError: (error) => {
+      const errorMessage = error?.response?.data?.message || "Failed to delete the category.";
+      Swal.fire("Error!", errorMessage, "error");
+    },
+  });
 
-      if (isLoading) {
-        return <h1>Loading...</h1>;
+  // Mutation to update category
+  const { mutate: updateCategoryMutation, isLoading: isUpdating } = useMutation({
+    mutationFn: (updatedCategory) => updateCategory(selectedCategory.id, updatedCategory),
+    onSuccess: () => {
+      Swal.fire("Success!", "Category updated successfully.", "success");
+      setIsModalOpen(false);
+      queryClient.invalidateQueries(["categories"]);
+    },
+    onError: (error) => {
+      const errorMessage = error?.response?.data?.message || "Failed to update the category.";
+      Swal.fire("Error!", errorMessage, "error");
+    },
+  });
+
+  // Handle delete with confirmation
+  const handleDelete = (id, categoryName) => {
+    Swal.fire({
+      title: `Are you sure you want to delete the category "${categoryName}"?`,
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#d33",
+      cancelButtonColor: "#3085d6",
+      confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        deleteCategoryMutation(id);
       }
-      if (isError) {
-        return <h1>Error: {error.message}</h1>;
-      }
+    });
+  };
+
+  // Handle edit button click
+  const handleEdit = (category) => {
+    setSelectedCategory(category);
+    setCategoryName(category.categoryName);
+    setIsModalOpen(true);
+  };
+
+  // Handle form submission for updating the category
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    updateCategoryMutation({ categoryName });
+  };
+
+  if (isLoading) {
+    return <h1>Loading...</h1>;
+  }
+  if (isError) {
+    return <h1>Error: {error.message}</h1>;
+  }
 
   return (
-    <div style={{textAlign: "center"}}>
-
-        <AddCategory />
-        {categories?.map((categories) => (
-        <div key={categories.id}>
-            <h4 style={{cursor: "pointer"}} onClick={() => navigate(`/category/${categories.id}`)}>
-            {categories.categoryName}
-            </h4>
-            <button onClick={() => navigate(`/category/${categories.id}/edit`)}>Edit</button>
-            <button>Delete</button>
-
-
+    <div style={{ textAlign: "center" }}>
+      <AddCategory />
+      {categories?.map((category) => (
+        <div key={category.id}>
+          <h4 style={{ cursor: "pointer" }}>{category.categoryName}</h4>
+          <button onClick={() => handleEdit(category)}>Edit</button>
+          <button onClick={() => handleDelete(category.id, category.categoryName)}>Delete</button>
         </div>
-        ))}
-    </div>
-  )
-}
+      ))}
 
-export default CategoryList
+      {/* Edit Modal */}
+      <Modal
+        title="Edit Category"
+        visible={isModalOpen}
+        onCancel={() => setIsModalOpen(false)}
+        footer={null}
+      >
+        <form onSubmit={handleSubmit}>
+          <input
+            type="text"
+            value={categoryName}
+            onChange={(e) => setCategoryName(e.target.value)}
+            placeholder="Category Name"
+          />
+          <button type="submit" disabled={isUpdating}>
+            {isUpdating ? "Updating..." : "Update"}
+          </button>
+        </form>
+      </Modal>
+    </div>
+  );
+};
+
+export default CategoryList;

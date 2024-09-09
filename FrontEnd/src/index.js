@@ -7,6 +7,9 @@ export {default as CategoryList} from './pages/Category/CategoryList.jsx'
 export {default as Cat} from './pages/Category/Cat.jsx'
 export {default as EditCategory} from './pages/Category/EditCategory.jsx'
 export {default as PageLayout} from './layouts/PageLayout.jsx'
+export {default as Login} from './pages/Login/Login.jsx'
+
+
 
 
 
