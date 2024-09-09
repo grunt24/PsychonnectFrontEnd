@@ -1,35 +1,35 @@
 import { Button, Layout, theme, Table } from "antd";
 const { Content } = Layout;
+import { fetchAdminManagement } from "../api/adminService";
+import { useState, useEffect } from "react";
 
 const AdminManagement = () => {
   const {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
 
+  // Column definitions
   const columns = [
     {
       title: "First Name",
       width: 150,
-      dataIndex: "firstname",
-      key: "firstname",
+      dataIndex: "firstName",
+      key: "firstName",
       fixed: "left",
-      sorter: true,
     },
     {
       title: "Last Name",
       width: 150,
-      dataIndex: "lastname",
-      key: "lastname",
+      dataIndex: "lastName",
+      key: "lastName",
       fixed: "left",
-      sorter: true,
     },
     {
       title: "Username",
       width: 100,
-      dataIndex: "username",
-      key: "username",
+      dataIndex: "userName",
+      key: "userName",
       fixed: "left",
-      sorter: true,
     },
     {
       title: "Email",
@@ -37,15 +37,13 @@ const AdminManagement = () => {
       dataIndex: "email",
       key: "email",
       fixed: "left",
-      sorter: true,
     },
     {
       title: "Role",
       width: 50,
-      dataIndex: "role",
+      dataIndex: "roles",
       key: "role",
       fixed: "left",
-      sorter: true,
     },
     {
       title: "Created At",
@@ -53,71 +51,83 @@ const AdminManagement = () => {
       dataIndex: "createdAt",
       key: "createdAt",
       fixed: "right",
-      sorter: true,
+      sorter: (a, b) => new Date(a.createdAt) - new Date(b.createdAt),
     },
   ];
 
-  const data = [
-    {
-      key: "1",
-      firstname: "Brent",
-      lastname: "De Leon",
-      username: "brent",
-      email: "brent@gmail.com",
-      role: "Admin",
-      createdAt: "2024-08",
-    },
-    {
-      key: "2",
-      firstname: "admin",
-      lastname: "admin",
-      username: "admin",
-      email: "admin@gmail.com",
-      role: "Owner",
-      createdAt: "2024-08",
-    },
-  ];
+  const [Admins, setAdmins] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [sortConfig, setSortConfig] = useState({
+    key: "createdAt",
+    direction: "asc",
+  });
+
+  useEffect(() => {
+    const loadAdmins = async () => {
+      try {
+        const data = await fetchAdminManagement(
+          sortConfig.key,
+          sortConfig.direction
+        );
+        // console.log("fetch Data: ", data);
+
+        setAdmins(data);
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadAdmins();
+  }, [sortConfig]);
+
+  const handleSort = (sorter) => {
+    const { field, order } = sorter;
+    setSortConfig({
+      key: field,
+      direction: order === "ascend" ? "asc" : "desc",
+    });
+  };
+
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>Error: {error}</p>;
 
   return (
-    <>
-          <Content
-            style={{
-              margin: "24px 16px 0",
-              overflow: "initial",
-            }}
-          >
-            <div
-              style={{
-                padding: 24,
-                textAlign: "center",
-                background: colorBgContainer,
-                borderRadius: borderRadiusLG,
-              }}
-            >
-              <Button
-                // onClick={handleAdd}
+    <Content
+      style={{
+        margin: "24px 16px 0",
+        overflow: "initial",
+      }}
+    >
+      <div
+        style={{
+          padding: 24,
+          textAlign: "center",
+          background: colorBgContainer,
+          borderRadius: borderRadiusLG,
+        }}
+      >
+        <Button
+          // onClick={handleAdd}
+          style={{
+            marginBottom: 16,
+            backgroundColor: "#00796B",
+            color: "white",
+          }}
+        >
+          Add admin
+        </Button>
 
-                style={{
-                  marginBottom: 16,
-                  backgroundColor: "#00796B",
-                  color: "white",
-                }}
-              >
-                Add admin
-              </Button>
-
-              <Table columns={columns} dataSource={data} />
-
-              {
-                // indicates very long content
-                Array.from({
-                  length: 100,
-                })
-              }
-            </div>
-          </Content>
-          {/* End Content */}
-    </>
+        <Table
+          columns={columns}
+          dataSource={Admins}
+          rowKey="id" // Ensure each row has a unique key, assuming `id` is unique
+          onChange={handleSort}
+        />
+      </div>
+    </Content>
   );
 };
 

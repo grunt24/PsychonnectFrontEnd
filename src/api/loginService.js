@@ -12,7 +12,7 @@ const loginService = {
       const token = response.data.newToken; // Adjust based on actual response structure
       if (token) {
         // Store the token in localStorage
-        localStorage.setItem("admin", token);
+        localStorage.setItem("token", token);
         return { success: true, token };
       } else {
         return { success: false, error: "Token is undefined" };
@@ -28,12 +28,12 @@ const loginService = {
 
   logout() {
     // Remove the token from localStorage
-    localStorage.removeItem("admin");
+    localStorage.removeItem("token");
   },
 
   getToken() {
     // Retrieve the token from localStorage
-    return localStorage.getItem("admin");
+    return localStorage.getItem("token");
   },
 };
 
