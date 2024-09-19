@@ -1,0 +1,92 @@
+:root {
+    --primary-color: #f3eae5;
+    --text-dark: #2c2724;
+    --white: #ffffff;
+    --max-width: 1200px;
+    --hover-border-color: #4caf50; /* Green border color on hover */
+  }
+  
+  /* Style for the button */
+  .container__left .btn {
+    transition: all 0.3s ease; /* Smooth transition for hover effects */
+    padding: 10px 20px; /* Add some padding for better appearance */
+    border: 2px solid transparent; /* Transparent border initially */
+    border-radius: 4px; /* Rounded corners */
+  }
+  
+  /* Hover effect for the button */
+  .container__left .btn:hover {
+    color: #0f715f; /* Text color on hover */
+    background-color: #fff; /* Background color on hover */
+    border-color: var(--hover-border-color); /* Green border color on hover */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Shadow effect on hover */
+    font-weight: 900;
+  }
+.content {
+  padding-block: 0 5rem;
+  padding-inline: 2rem;
+  text-align: center;
+}
+
+.content p {
+  line-height: 1.75rem;
+  color: #ffffff;
+}
+  
+  /* .container {
+    max-width: var(--max-width);
+    margin: auto;
+    padding: 5rem 0;
+    position: relative;
+    isolation: isolate;
+    display: grid;
+    gap: 2rem;
+    overflow: hidden;
+  } */
+  
+  .container__left {
+    padding-inline: 1rem;
+    text-align: center;
+  }
+  
+  .container__left h1 {
+    margin-bottom: 2rem;
+    font-size: 3.5rem;
+    font-weight: 700;
+    line-height: 4.5rem;
+    color: var(--text-dark);
+  }
+  
+  .container__left .btn {
+    padding: 1rem 2rem;
+    letter-spacing: 2px;
+    color: var(--white);
+    background-color: #0f715f;
+    border-radius: 5rem;
+  }
+  
+
+  /* Homepage.css */
+.header {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    background: #00796b; /* Header background color */
+  }
+  
+  .menu {
+    flex: 1;
+    min-width: 0;
+  }
+  
+  .menu .ant-menu-item {
+    color: white; /* Default font color for menu items */
+  }
+  .menu .ant-menu-item:hover {
+    color: white !important; /* Default font color for menu items */
+  }
+
+  

@@ -9,65 +9,12 @@
   box-sizing: none;
   font-family: "Poppins", system-ui;
   font-weight: 400;
-  font-style: normal;
+  /* font-style: normal; */
 }
 
 
-
-.sidebar{
-  color: #fff;
-  min-width: 280px;
+.menu-bar {
+  font-size: 13px; /* Set font size to 12px */
 }
 
-.logo{
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #000000;
-  padding-top: 15px;
-  background-color: #fff;
-}
 
-.menu-bar{
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  font-size: 14px;
-  position: relative;
-  padding-top: 20px;
-  
-}
-
-.logo-text{
-  font-size: 20px;
-  font-weight: 400;
-  color: #fff;
-  letter-spacing: 1px;
-  margin-left: 10px;
-}
-
-.logo-img{
-  height: 50px;
-  margin-right: 10px;
-}
-
-.toggle{
-  color : #fff;
-  font-size: 30px;
-  
-
-}
-
-.toggle:hover{
-  color: none;
-  
-}
-
-.Header{
-  background-color: #00796b !important; 
-}
-
-.logo.collapsed .logo-name {
-  display: none; /* Hide text when collapsed */
-}

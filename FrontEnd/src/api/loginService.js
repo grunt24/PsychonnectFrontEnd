@@ -3,19 +3,33 @@ import axiosInstance from "./_axiosInstance";
 const loginService = {
   async login(userName, password) {
     try {
+      // Step 1: Get the token and roles from login
       const response = await axiosInstance.post("/Auth/login", {
         userName,
         password,
       });
 
-      // Check for token in the response
-      const token = response.data.newToken; // Adjust based on actual response structure
+      // Extract the token and roles from the response
+      const token = response.data.newToken;
+      const userDetails = response.data.userInfo; // Assuming 'roles' is part of the response data
+
       if (token) {
         // Store the token in localStorage
         localStorage.setItem("token", token);
-        return { success: true, token };
+
+        if (userDetails) {
+          // Store the roles in localStorage as a JSON string
+          localStorage.setItem("userDetails", JSON.stringify(userDetails));
+
+          // Return success
+          return { success: true, token, userDetails };
+        } else {
+          // If roles are missing, return an error
+          return { success: false, error: "User role is missing" };
+        }
       } else {
-        return { success: false, error: "Token is undefined" };
+        // If token is missing, return an error
+        return { success: false, error: "Failed to fetch token" };
       }
     } catch (error) {
       console.error("Login failed:", error);
@@ -26,15 +40,31 @@ const loginService = {
     }
   },
 
-  logout() {
-    // Remove the token from localStorage
-    localStorage.removeItem("token");
+  // Function to get user details from localStorage
+  getUserDetails() {
+    const userDetails = localStorage.getItem("userDetails");
+    return userDetails ? JSON.parse(userDetails) : null;
   },
 
-  getToken() {
-    // Retrieve the token from localStorage
-    return localStorage.getItem("token");
+  logout() {
+    // Remove the token and roles from localStorage
+    // localStorage.removeItem("token");
+    localStorage.clear();
+    window.location.href = "/";
   },
+
+  // Uncomment and adjust this if you need to use it
+  // async getUserRoles(token) {
+  //   try {
+  //     const response = await axiosInstance.get("/Auth/roles", {
+  //       headers: { Authorization: `Bearer ${token}` },
+  //     });
+  //     return response.data.roles; // Adjust according to the API response
+  //   } catch (error) {
+  //     console.error("Failed to fetch user roles:", error);
+  //     return [];
+  //   }
+  // },
 };
 
 export default loginService;

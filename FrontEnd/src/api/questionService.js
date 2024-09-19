@@ -14,3 +14,15 @@ export const createQuestion = async (newQuestion) => {
   return data;
 };
 
+// Function to update a category by ID
+export const updateQuestion = async (id, updatedQuestion) => {
+  const { data } = await axiosInstance.put(`${subdirectory}/${id}`, updatedQuestion);
+  return data;
+};
+
+// Function to delete a category by ID
+export const deleteQuestion = async (id) => {
+  const { data } = await axiosInstance.delete(`${subdirectory}/${id}`);
+  return data;
+};
+

@@ -1,4 +1,4 @@
-import { createQuestion } from '../../api/questionService'
+import { createQuestion } from '../../../api/questionService'
 import QuestionForm from './QuestionForm';
 import { useMutation } from '@tanstack/react-query';
 

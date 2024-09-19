@@ -5,90 +5,97 @@ import {
   RightOutlined,
   UserOutlined,
   IdcardFilled,
-  MessageFilled,
   BookFilled,
 } from "@ant-design/icons";
 import { Link } from "react-router-dom";
-import { BsPersonCircle } from "react-icons/bs";
-import loginService from "../api/loginService";
+import Swal from "sweetalert2";
 
 const MenuList = () => {
-  const token = loginService.getToken(); // Check if token exists
-
-  const handleLogout = () => {
-    loginService.logout();
-    window.location.href = "/login"; // Redirect to login page
+  
+  
+  const handleCounselorClick = () => {
+    Swal.fire({
+      title: 'Coming Soon',
+      html: `
+        <div style="text-align: center;">
+          <p style="font-size: 24px; color: #ff4d4f;">🚧</p>
+          <h2>We are working on it!</h2>
+          <p>This page is coming soon. Stay tuned!</p>
+        </div>
+      `,
+      icon: 'info',
+      customClass: {
+        container: 'my-swal-container' // Optional: for custom styling
+      },
+      width: '90%',
+      heightAuto: true,
+      position: 'center',
+      timer: 3000, // Duration of the alert in milliseconds (e.g., 3000 ms = 3 seconds)
+      timerProgressBar: true,
+      showConfirmButton: false, // Hides the OK button
+    });
   };
-  return (
-    <Menu theme="light" mode="inline" className="menu-bar">
-      <Menu.Item key={"home"} icon={<HomeFilled />}>
-        <Link Link to="/dashboard">
-          Dashboard
-        </Link>
-      </Menu.Item>
-      <Menu.Item key={"Admin"} icon={<IdcardFilled />}>
-        <Link Link to="/admin-management">
-          Admin Management
-        </Link>
-      </Menu.Item>
-      <Menu.Item key={"Counselor"} icon={<UserOutlined />}>
-        <Link Link to="/counselor-management">
-          Counselor Management
-        </Link>
-      </Menu.Item>
 
-      <Menu.SubMenu
-        key={"Assessment"}
-        icon={<ContainerFilled />}
-        title="Assessment Management"
-      >
-        <Menu.Item key={"assessmentSubtask-1"} icon={<RightOutlined />}>
-          <Link Link to="/manage-category">
-            Category
-          </Link>
-        </Menu.Item>
-        <Menu.Item
-          key={"assessmentSubtask-2"}
-          icon={<RightOutlined />}
-          title="Quesionnaire"
-        >
-          <Link Link to={"/manage-question"}>
-            Question
-          </Link>
-        </Menu.Item>
-      </Menu.SubMenu>
+  // Define menu items using the `items` prop
+  const menuItems = [
+    {
+      key: "home",
+      icon: <HomeFilled />,
+      label: <Link to="/dashboard">Dashboard</Link>,
+    },
+    {
+      key: "Admin",
+      icon: <IdcardFilled />,
+      label: "Admin Management",
+      children: [
+        {
+          key: "assessmentSubtask-1",
+          icon: <UserOutlined />,
+          label: <Link to="/user-management">User Management</Link>,
+        },
+        {
+          key: "assessmentSubtask-2",
+          icon: <UserOutlined />,
+          label: <a onClick={handleCounselorClick}>Student Management</a> // Trigger SweetAlert on click
 
-      <Menu.Item key={"Mesassage"} icon={<MessageFilled />}>
-        <Link Link to="#">
-          Message Management
-        </Link>
-      </Menu.Item>
-      <Menu.Item key={"Logs"} icon={<BookFilled />}>
-        <Link Link to="#">
-          Log Management
-        </Link>
-      </Menu.Item>
-      <Menu.Item key={"CatList"} icon={<BookFilled />}>
-        <Link Link to="/CategoryList">
-          Category List
-        </Link>
-      </Menu.Item>
-      <Menu.Item key={"/"} icon={<BsPersonCircle />}>
-        {/* <a className="btn" href="/Login"> */}
-        {token ? (
-          <a className="btn" onClick={handleLogout}>
-            Logout
-          </a>
-        ) : (
-          // Show logout button if token exists
-          <Link className="btn" to="/Login">
-            Login
-          </Link>
-          // Show login link if no token
-        )}
-      </Menu.Item>
-    </Menu>
-  );
+        },
+      ],
+    },
+    {
+      key: "Assessment",
+      icon: <ContainerFilled />,
+      label: "Assessment Management",
+      children: [
+        {
+          key: "assessmentSubtask-1",
+          icon: <RightOutlined />,
+          label: <Link to="/manage-category">Category</Link>,
+        },
+        {
+          key: "assessmentSubtask-2",
+          icon: <RightOutlined />,
+          label: <Link to="/manage-question">Question</Link>,
+        },
+        {
+          key: "assessmentSubtask-3",
+          icon: <RightOutlined />,
+          label: <Link to="/point">Pointings</Link>,
+        },
+        {
+          key: "assessmentSubtask-4",
+          icon: <RightOutlined />,
+          label: <Link to="/questionnaire">Questionnaire</Link>,
+        },
+      ],
+    },
+    {
+      key: "Inbox",
+      icon: <BookFilled />,
+      label: <a onClick={handleCounselorClick}>Inbox</a>
+    },
+  ];
+
+  return <Menu theme="light" mode="inline" className="menu-bar" items={menuItems} />;
 };
 
 export default MenuList;

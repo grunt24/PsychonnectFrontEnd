@@ -1,7 +1,7 @@
 import axios from "axios";
 
  const axiosInstance = axios.create({
-    baseURL: 'http://psychonnect-api.runasp.net/api/',
+    baseURL: 'http://psychonnect.runasp.net/api/',
     // timeout: 1000,
     headers: {'Authorization': `Bearer ${localStorage.getItem("token")}`}
   });

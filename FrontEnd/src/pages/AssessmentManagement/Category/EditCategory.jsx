@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useParams, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
-import { getCategoryById, updateCategory } from "../../api/categoryService"; // Adjust the import path if necessary
+import { getCategoryById, updateCategory } from "../../../api/categoryService"; // Adjust the import path if necessary
 
 const EditCategory = () => {
   const { id } = useParams(); // Get the category ID from the URL

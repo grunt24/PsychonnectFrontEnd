@@ -1,7 +1,7 @@
 import { useState } from "react";
 import Swal from "sweetalert2"; // Import SweetAlert2
-import { createQuestion } from '../../api/questionService';
-import { getCategories } from "../../api/categoryService"; // Import your API functions
+import { createQuestion } from '../../../api/questionService';
+import { getCategories } from "../../../api/categoryService"; // Import your API functions
 import { Modal, Button, Input, Form, Select } from "antd"; // Ant Design components
 import { useQuery } from '@tanstack/react-query'; // Import useQuery
 
@@ -19,7 +19,7 @@ const QuestionForm = () => {
     queryFn: getCategories,
   });
 
-  const [isModalVisible, setIsModalVisible] = useState(false); // State to control modal visibility
+  const [isModalOpen, setIsModalVisible] = useState(false); // State to control modal visibility
 
   const handleChangeInput = (e) => {
     setQuestion({
@@ -51,7 +51,10 @@ const QuestionForm = () => {
         icon: "success",
         timer: 2000, // Auto close after 2 seconds
         timerProgressBar: true,
-        showConfirmButton: false, // No OK button needed
+        showConfirmButton: true, // No OK button needed
+      }).then(() => {
+        // Reload the page after the alert closes
+        window.location.reload();
       });
     } catch (error) {
       // Extract the error message from the response, if available
@@ -90,13 +93,13 @@ const QuestionForm = () => {
 
   return (
     <>
-      <Button style={{ color: 'black' }} onClick={showModal}>
+      <Button type="primary" onClick={showModal}>
         Add Question
       </Button>
 
       <Modal
         title="Create Question"
-        visible={isModalVisible}
+        open={isModalOpen}
         onCancel={handleCancel}
         footer={null} // Remove default footer buttons
       >

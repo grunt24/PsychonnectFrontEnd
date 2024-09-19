@@ -1,48 +1,51 @@
 import { useState } from "react";
-import { Modal, Button, Input, Form } from "antd"; // Ant Design components
 import Swal from "sweetalert2"; // Import SweetAlert2
-import { createCategory } from "../../api/categoryService";
+import { createPoints } from '../../../api/pointService'; // Import your API function
+import { Modal, Button, Input, Form } from "antd"; // Ant Design components
+// import { useQuery } from '@tanstack/react-query'; // Import useQuery
 
-const CategoryForm = () => {
-  const [categories, setCategories] = useState({
-    categoryName: "",
+const PointForm = () => {
+  const [point, setPoint] = useState({
+    description: "",
+    point: "",
   });
 
-  const [isModalVisible, setIsModalVisible] = useState(false); // State to control modal visibility
+  const [isModalOpen, setIsModalVisible] = useState(false); // State to control modal visibility
 
   const handleChangeInput = (e) => {
-    setCategories({
-      ...categories,
+    setPoint({
+      ...point,
       [e.target.name]: e.target.value,
     });
   };
 
   const handleSubmit = async () => {
     try {
-      await createCategory(categories);
-      setCategories({
-        categoryName: "",
+      await createPoints(point);
+      setPoint({
+        description: "",
+        point: "",
       });
       setIsModalVisible(false); // Close modal after submitting
-
-      // Refetch categories after successful creation
 
       // Show success alert with auto-close timer
       Swal.fire({
         title: "Success!",
-        text: "Category created successfully.",
+        text: "Point created successfully.",
         icon: "success",
         timer: 2000, // Auto close after 2 seconds
         timerProgressBar: true,
-        showConfirmButton: false, // No OK button needed
-        
+        showConfirmButton: true, // No OK button needed
+      }).then(() => {
+        // Reload the page after the alert closes
+        window.location.reload();
       });
     } catch (error) {
       // Extract the error message from the response, if available
       const errorMessage =
         error?.response?.data?.message || // If error message from API
         error?.message || // General JavaScript error message
-        "There was an issue creating the category."; // Fallback message
+        "There was an issue creating the point."; // Fallback message
 
       // Show error alert with detailed message
       Swal.fire({
@@ -67,22 +70,32 @@ const CategoryForm = () => {
   return (
     <>
       <Button type="primary" onClick={showModal}>
-        Add Category
+        Add Point
       </Button>
+
       <Modal
-        title="Create Category"
-        visible={isModalVisible}
+        title="Create Point"
+        open={isModalOpen}
         onCancel={handleCancel}
         footer={null} // Remove default footer buttons
       >
         <Form onFinish={handleSubmit}>
-          <Form.Item label="Category Name" required>
+          <Form.Item label="Description" required>
             <Input
               type="text"
-              name="categoryName"
-              value={categories.categoryName}
+              name="description"
+              value={point.description}
               onChange={handleChangeInput}
-              placeholder="Enter category name"
+              placeholder="Enter point description"
+            />
+          </Form.Item>
+          <Form.Item label="Point" required>
+            <Input
+              type="number"
+              name="point"
+              value={point.point}
+              onChange={handleChangeInput}
+              placeholder="Enter point value"
             />
           </Form.Item>
           <Form.Item>
@@ -96,4 +109,4 @@ const CategoryForm = () => {
   );
 };
 
-export default CategoryForm;
+export default PointForm;
