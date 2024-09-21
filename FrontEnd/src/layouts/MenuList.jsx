@@ -9,13 +9,12 @@ import {
 } from "@ant-design/icons";
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
+import { RiMessageFill } from "react-icons/ri";
 
 const MenuList = () => {
-  
-  
   const handleCounselorClick = () => {
     Swal.fire({
-      title: 'Coming Soon',
+      title: "Coming Soon",
       html: `
         <div style="text-align: center;">
           <p style="font-size: 24px; color: #ff4d4f;">🚧</p>
@@ -23,13 +22,13 @@ const MenuList = () => {
           <p>This page is coming soon. Stay tuned!</p>
         </div>
       `,
-      icon: 'info',
+      icon: "info",
       customClass: {
-        container: 'my-swal-container' // Optional: for custom styling
+        container: "my-swal-container", // Optional: for custom styling
       },
-      width: '90%',
+      width: "90%",
       heightAuto: true,
-      position: 'center',
+      position: "center",
       timer: 3000, // Duration of the alert in milliseconds (e.g., 3000 ms = 3 seconds)
       timerProgressBar: true,
       showConfirmButton: false, // Hides the OK button
@@ -56,8 +55,7 @@ const MenuList = () => {
         {
           key: "assessmentSubtask-2",
           icon: <UserOutlined />,
-          label: <a onClick={handleCounselorClick}>Student Management</a> // Trigger SweetAlert on click
-
+          label: <a onClick={handleCounselorClick}>Student Management</a>, // Trigger SweetAlert on click
         },
       ],
     },
@@ -91,11 +89,21 @@ const MenuList = () => {
     {
       key: "Inbox",
       icon: <BookFilled />,
-      label: <a onClick={handleCounselorClick}>Inbox</a>
+      // label: <a onClick={handleCounselorClick}>Inbox</a>
+      label: <Link to={"/inbox"}>Inbox</Link>,
+      children: [
+        {
+          key: "Send-Message",
+          icon: <RiMessageFill />,
+          label: <Link to="/send-message">Send Message</Link>,
+        },
+      ],
     },
   ];
 
-  return <Menu theme="light" mode="inline" className="menu-bar" items={menuItems} />;
+  return (
+    <Menu theme="light" mode="inline" className="menu-bar" items={menuItems} />
+  );
 };
 
 export default MenuList;

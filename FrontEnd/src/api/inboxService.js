@@ -1,7 +1,7 @@
-
 import axiosInstance from "./_axiosInstance";
 
 const subdirectory = "/Messages/my-messages";
+const adddirectory = "/Messages/create";
 
 // Function to get categories
 export const getMyMessages = async () => {
@@ -9,8 +9,8 @@ export const getMyMessages = async () => {
   return data;
 };
 
-// Function to create a Message 
+// Function to create a Message
 export const createMessage = async (newMessage) => {
-    const { data } = await axiosInstance.post(subdirectory, newMessage);
-    return data;
-  };
+  const { data } = await axiosInstance.post(adddirectory, newMessage);
+  return data;
+};

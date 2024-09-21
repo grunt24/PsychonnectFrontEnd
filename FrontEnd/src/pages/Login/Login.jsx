@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Form, Input, Button, Row, Col, Typography } from "antd"; // Import Ant Design components
-import loginService from '../../api/loginService'; // Import the loginService
+import loginService from "../../api/loginService"; // Import the loginService
 import Swal from "sweetalert2"; // Import SweetAlert2
 import { LuEye, LuEyeOff } from "react-icons/lu"; // Import the icons
-import './Login.css';
+import "./Login.css";
 
 const { Title, Text } = Typography;
 
@@ -18,21 +18,24 @@ const Login = () => {
   const handleSubmit = async (values) => {
     try {
       // Call loginService.login and pass userName and password
-      const { success, userDetails } = await loginService.login(values.userName, values.password);
+      const { success, userDetails } = await loginService.login(
+        values.userName,
+        values.password
+      );
 
       if (success) {
         Swal.fire({
           toast: true,
-          position: 'top-end',
-          icon: 'success',
-          title: 'Login Successful',
-          text: 'You will be redirected shortly.',
+          position: "top-end",
+          icon: "success",
+          title: "Login Successful",
+          text: "You will be redirected shortly.",
           timer: 2000, // Auto close after 2 seconds
           timerProgressBar: true,
           showConfirmButton: false,
           didOpen: (toast) => {
-            toast.addEventListener('mouseenter', Swal.stopTimer);
-            toast.addEventListener('mouseleave', Swal.resumeTimer);
+            toast.addEventListener("mouseenter", Swal.stopTimer);
+            toast.addEventListener("mouseleave", Swal.resumeTimer);
           },
         });
 
@@ -54,16 +57,16 @@ const Login = () => {
 
       Swal.fire({
         toast: true,
-        position: 'top', // Positioning the toast at the top
-        icon: 'error',
-        title: 'Error!',
-        text: 'Invalid username or password',
+        position: "top", // Positioning the toast at the top
+        icon: "error",
+        title: "Error!",
+        text: "Invalid username or password",
         timer: 2000, // Auto close after 2 seconds
         timerProgressBar: true,
         showConfirmButton: false,
         didOpen: (toast) => {
-          toast.addEventListener('mouseenter', Swal.stopTimer);
-          toast.addEventListener('mouseleave', Swal.resumeTimer);
+          toast.addEventListener("mouseenter", Swal.stopTimer);
+          toast.addEventListener("mouseleave", Swal.resumeTimer);
         },
       });
 
@@ -72,7 +75,7 @@ const Login = () => {
   };
 
   return (
-    <Row justify="center" align="middle" style={{ height: '100vh' }}>
+    <Row justify="center" align="middle" style={{ height: "100vh" }}>
       <Col xs={22} sm={18} md={12} lg={8} xl={6}>
         <div className="addUser">
           <div className="back">
@@ -82,7 +85,9 @@ const Login = () => {
               </span>
             </Link>
           </div>
-          <Title level={3} className="login-title">LOGIN</Title>
+          <Title level={3} className="login-title">
+            LOGIN
+          </Title>
           <Form
             layout="vertical"
             onFinish={handleSubmit}
@@ -91,7 +96,9 @@ const Login = () => {
             <Form.Item
               label="Username"
               name="userName"
-              rules={[{ required: true, message: 'Please input your username!' }]}
+              rules={[
+                { required: true, message: "Please input your username!" },
+              ]}
             >
               <Input
                 placeholder="Enter your Username"
@@ -105,14 +112,16 @@ const Login = () => {
             <Form.Item
               label="Password"
               name="password"
-              rules={[{ required: true, message: 'Please input your password!' }]}
+              rules={[
+                { required: true, message: "Please input your password!" },
+              ]}
             >
               <Input.Password
                 placeholder="Enter your Password"
                 type={showPassword ? "text" : "password"}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                iconRender={visible =>
+                iconRender={(visible) =>
                   visible ? (
                     <LuEyeOff onClick={() => setShowPassword(!showPassword)} />
                   ) : (
@@ -127,7 +136,7 @@ const Login = () => {
             <Form.Item>
               <Button
                 type="primary"
-                style={{ background: '#4CAF50', marginTop: 20 }}
+                style={{ background: "#4CAF50", marginTop: 20 }}
                 htmlType="submit"
                 block
               >
@@ -137,7 +146,7 @@ const Login = () => {
           </Form>
 
           {error && (
-            <div className="error" style={{ color: 'red', marginTop: '10px' }}>
+            <div className="error" style={{ color: "red", marginTop: "10px" }}>
               Please try again
             </div>
           )}
